@@ -1,9 +1,10 @@
 package org.example.orderapp.adapter;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.example.orderapp.model.Order;
 
-public interface OrderAdapter {
-    List<Order> addItem();
+public interface OrderSource {
+    List<Order> read() throws IOException;
 }

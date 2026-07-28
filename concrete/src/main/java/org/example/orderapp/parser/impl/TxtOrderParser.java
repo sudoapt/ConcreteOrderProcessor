@@ -1,4 +1,4 @@
-package org.example.orderapp.parser;
+package org.example.orderapp.parser.impl;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,12 +10,20 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class TxtOrderParser {
-    public record DataLine(LocalDateTime timestamp, String customerName, double orderAmount) {}
+    public record DataLine(LocalDateTime timestamp, String customerName, String orderAmount) {
+    
+    @Override
+    public String toString() {
+        return timestamp + " " + customerName + " " + orderAmount + 
+        "\n";
+    }
+
+    }
 
         public static void main(String[] args) {
         try{
 
-            ArrayList<DataLine> records = parseTxtOrderParser("concrete/data/inbound_files/discount_day.txt");
+            ArrayList<DataLine> records = parseFile("concrete/data/inbound_files/discount_day.txt");
             records.forEach(System.out::println);
         } catch (IOException ex) {
             System.err.println("Error reading the file: " + ex.getMessage());
@@ -23,7 +31,7 @@ public class TxtOrderParser {
         
     }
 
-    public static ArrayList<DataLine> parseTxtOrderParser(String filepath) throws IOException {
+    public static ArrayList<DataLine> parseFile(String filepath) throws IOException {
         
         try (Stream<String> lines = Files.lines(Paths.get(filepath))) {
             return lines
@@ -39,7 +47,7 @@ public class TxtOrderParser {
 
         LocalDateTime timestamp = LocalDateTime.parse(entries[0], DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         String customerName = entries[1];
-        double orderAmount = Double.parseDouble(entries[2]);
+        String orderAmount = entries[2];
 
         return new DataLine(timestamp, customerName, orderAmount);
     } 

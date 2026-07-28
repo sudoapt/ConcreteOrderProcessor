@@ -1,66 +1,46 @@
 package org.example.orderapp.model;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.time.LocalDateTime;
 
 public class Order {
 
-    private String orderId;
-    private String orderDateTime;
-    private String customerName;
-    private List<OrderItem> items;
+    private final LocalDateTime orderDateTime;
+    private final String customerName;
+    private final double productAmount;
 
-
-    // to avoid nullpointerexception
-    public Order() {
-        this.items = new ArrayList<>();
-    }
-
-    public Order(String orderId, String orderDateTime, String customerName) {
-        this.orderId = orderId;
+    public Order(LocalDateTime orderDateTime, String customerName, double productAmount) {
         this.orderDateTime = orderDateTime;
-        this.items = new ArrayList<>();
+        this.customerName = customerName;
+        this.productAmount = productAmount;
     }
 
-    // 
-    public void addItem(OrderItem item) {
-        this.items.add(item);
+     @Override
+    public String toString() {
+        return orderDateTime + " " + customerName + " " + productAmount + 
+        "\n";
     }
 
-
-
-    public String getOrderId() {
-        return orderId;
+    public static Order makeOrder(LocalDateTime orderDateTime, String customerName, double productAmount) {
+        return new Order(orderDateTime, customerName, productAmount);
     }
 
-    public void setOrderId(String orderId) {
-        this.orderId = orderId;
-    }
-
-    public String getOrderDateTime() {
+    public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
 
-    public void setOrderDateTime(String orderDateTime) {
-        this.orderDateTime = orderDateTime;
-    }
 
     public String getCustomerName() {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+
+    public double getProductAmount() {
+        return productAmount;
     }
 
-    public List<OrderItem> getItems() {
-        return items;
-    }
+    
 
-    // do i need it?
-    public void setItems(List<OrderItem> items) {
-        this.items = items;
-    }
+    
 
     
 

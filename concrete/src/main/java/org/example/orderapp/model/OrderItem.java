@@ -1,65 +1,64 @@
 package org.example.orderapp.model;
 
 public class OrderItem {
-    private String productId;
     private String productName;
-    private int productAmount;
+    private double productAmount;
     private double productPrice;
-    private double productDiscount;
+    private double productPriceDiscount;
 
     
-    public OrderItem (String productId, String productName, int productAmount, double productPrice, double productDiscount) {
-            this.productId = productId;
+    public OrderItem (int productId, String productName, double productAmount, double productPrice, double productPriceDiscount) {
             this.productName = productName;
             this.productAmount = 1; // cant order < 1kgs
             this.productPrice = productPrice;
-            this.productDiscount = 1; // total price * 1 = no discount
-
+            this.productPriceDiscount = productPriceDiscount;
     }
 
-    public String getProductId() {
-        return productId;
-    }
+    
 
-    public void setProductId(String productId) {
-        this.productId = productId;
-    }
 
     public String getProductName() {
         return productName;
     }
 
+
     public void setProductName(String productName) {
         this.productName = productName;
     }
 
-    public int getProductAmount() {
+
+    public double getProductAmount() {
         return productAmount;
     }
 
-    public void setProductAmount(int productAmount) {
+
+    public void setProductAmount(double productAmount) {
         this.productAmount = productAmount;
     }
+
 
     public double getProductPrice() {
         return productPrice;
     }
 
+
     public void setProductPrice(double productPrice) {
         this.productPrice = productPrice;
     }
 
-    public double getProductDiscount() {
-        return productDiscount;
+
+    public double getProductPriceDiscount() {
+        return productPriceDiscount;
     }
 
-    public void setProductDiscount(double productDiscount) {
-        this.productDiscount = productDiscount;
+
+    public void setProductPriceDiscount(double productPriceDiscount) {
+        this.productPriceDiscount = productPriceDiscount;
     }
 
 
     public double getTotalPrice() {
-        return (this.productAmount * this.productPrice) * this.productDiscount;
+        return (this.productAmount * this.productPrice) * this.productPriceDiscount;
     }
 
     
