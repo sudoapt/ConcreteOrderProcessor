@@ -7,45 +7,43 @@ public class Order {
     private final LocalDateTime orderDateTime;
     private final String customerName;
     private final double productAmount;
+    private final double totalCost;
+
 
     public Order(LocalDateTime orderDateTime, String customerName, double productAmount) {
+        this(orderDateTime, customerName, productAmount, 0.0);
+    }
+
+    
+    public Order(LocalDateTime orderDateTime, String customerName, double productAmount, double totalCost) {
         this.orderDateTime = orderDateTime;
         this.customerName = customerName;
         this.productAmount = productAmount;
+        this.totalCost = totalCost;
     }
 
-     @Override
+    @Override
     public String toString() {
-        return orderDateTime + " " + customerName + " " + productAmount + 
-        "\n";
+        return orderDateTime + " " + customerName + " " + productAmount + " " + totalCost + "\n";
     }
 
-    public static Order makeOrder(LocalDateTime orderDateTime, String customerName, double productAmount) {
-        return new Order(orderDateTime, customerName, productAmount);
+    public static Order makeOrder(LocalDateTime orderDateTime, String customerName, double productAmount, double totalCost) {
+        return new Order(orderDateTime, customerName, productAmount, totalCost);
     }
 
     public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
 
-
     public String getCustomerName() {
         return customerName;
     }
-
 
     public double getProductAmount() {
         return productAmount;
     }
 
-    
-
-    
-
-    
-
-
-
-
-
+    public double getTotalCost() {
+        return totalCost;
+    }
 }

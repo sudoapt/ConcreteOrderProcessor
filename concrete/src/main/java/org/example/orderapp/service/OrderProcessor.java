@@ -12,16 +12,6 @@ public class OrderProcessor {
 
     
 
-    // public HashMap<String, Double> getOrderTotalCost() throws IOException {
-        
-    //     HashMap<String, Double> ordersTotalCost = new HashMap<>();
-
-    //     List<Order> ordersList1 = adapter1.read();
-    //     for (Order order : ordersList1) {
-    //         calc.calculateOrderTotalCost(order, productPrice);
-    //     }
-
-    //     ret
-    // }
+    
 
 }
