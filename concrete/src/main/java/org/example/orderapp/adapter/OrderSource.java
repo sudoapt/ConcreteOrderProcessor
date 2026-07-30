@@ -6,5 +6,5 @@ import java.util.List;
 import org.example.orderapp.model.Order;
 
 public interface OrderSource {
-    List<Order> read() throws IOException;
+    List<Order> read(String datapath) throws IOException;
 }
