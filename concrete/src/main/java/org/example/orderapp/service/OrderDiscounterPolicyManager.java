@@ -9,18 +9,11 @@ import java.util.stream.Collectors;
 import org.example.orderapp.model.Order;
 
 public class OrderDiscounterPolicyManager {
-    // gets the ordersTotalCost HashMap
-    // takes order timestamp, ranges earliest first
-    // aplies stepdown discount
-    
-    // private double productPriceDiscount;
-    // private double discountStepdown;
 
 
-
-    public ArrayList<Order> applyStepdownedDiscount(ArrayList<Order> orders, double productPriceDiscount, double discountStepdown) {
-        ArrayList<Order> discountedOrders = new ArrayList<>();
-        ArrayList<Order> sortedOrders =  orders.stream()
+    public List<Order> applyStepdownedDiscount(List<Order> orders, double productPriceDiscount, double discountStepdown) {
+        List<Order> discountedOrders = new ArrayList<>();
+        List<Order> sortedOrders =  orders.stream()
         .sorted(Comparator.comparing(Order::getOrderDateTime))
         .collect(Collectors.toCollection(ArrayList::new));
 
