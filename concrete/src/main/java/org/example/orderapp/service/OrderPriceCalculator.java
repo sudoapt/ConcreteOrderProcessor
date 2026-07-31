@@ -23,6 +23,7 @@ public class OrderPriceCalculator {
         try {
             NoExtOrderAdapter adapter1 = new NoExtOrderAdapter();
             OrderPriceCalculator calc = new OrderPriceCalculator();
+            OrderDiscounterPolicyManager discMan = new OrderDiscounterPolicyManager();
             
             ArrayList<Order> totalCostOrders = new ArrayList<>();
             String datapath = "concrete/data/inbound_files/discount_day_without_ext";
@@ -33,6 +34,9 @@ public class OrderPriceCalculator {
                 
             }
             System.out.println(totalCostOrders);
+            
+            ArrayList<Order> dicsOrders = discMan.applyStepdownedDiscount(totalCostOrders, 0.50, 0.05);
+            System.out.println(dicsOrders);
             
         } catch (IOException ex) {
             System.getLogger(OrderPriceCalculator.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);

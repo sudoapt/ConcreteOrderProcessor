@@ -1,14 +1,14 @@
 package org.example.orderapp.service;
 
-import org.example.orderapp.adapter.impl.NoExtOrderAdapter;
+import java.time.LocalDateTime;
+
 
 public class OrderProcessor {
-    // gets Order from Adapters and uses OrderPriceCalculator.calutaleOrderTotalCost on it
-    // merges both Adapters data into single list of unique items == all three items of the line are the same
+    // private final LocalDateTime orderDateTime;
+    // private final String customerName;
+    // private final double productAmount;
+    // private final double totalCost;
 
-    private final NoExtOrderAdapter adapter1 = new NoExtOrderAdapter();
-    private final OrderPriceCalculator calc = new OrderPriceCalculator();
-    private final double productPrice = 10;
 
     
 

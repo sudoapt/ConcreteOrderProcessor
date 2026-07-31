@@ -7,14 +7,14 @@ public class Order {
     private final LocalDateTime orderDateTime;
     private final String customerName;
     private final double productAmount;
-    private final double totalCost;
+    private double totalCost;
 
 
     public Order(LocalDateTime orderDateTime, String customerName, double productAmount) {
         this(orderDateTime, customerName, productAmount, 0.0);
     }
 
-    
+
     public Order(LocalDateTime orderDateTime, String customerName, double productAmount, double totalCost) {
         this.orderDateTime = orderDateTime;
         this.customerName = customerName;
@@ -46,4 +46,9 @@ public class Order {
     public double getTotalCost() {
         return totalCost;
     }
+
+    public void setTotalCost(double totalCost) {
+        this.totalCost = totalCost;
+    }
+    
 }
