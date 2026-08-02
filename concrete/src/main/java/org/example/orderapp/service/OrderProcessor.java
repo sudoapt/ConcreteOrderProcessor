@@ -13,23 +13,32 @@ import org.example.orderapp.model.Order;
 
 
 public class OrderProcessor {
+
+    private double price;
+    private double discount;
+    private double discountStepdown;
+    private String datapath;
+
     
-    public static void main(String[] args) throws IOException {
-        OrderProcessor op = new OrderProcessor();
-        String datapath = "concrete/data/inbound_files/discount_day_without_ext";
+    
+    public OrderProcessor(double price, double discount, double discountStepdown, String datapath) {
+        this.price = price;
+        this.discount = discount;
+        this.discountStepdown = discountStepdown;
+        this.datapath = datapath;
+    }
+
+
+    public List<Order> processOrder(double price, double discount, double discountStepdown, String datapath) throws IOException {
         NoExtOrderAdapter adapter = new NoExtOrderAdapter();
         List<Order> parsedOrdersList = adapter.read(datapath);
 
-        List<Order> sortedAndFilteredOrderList = new ArrayList<>(op.mergeSameClientOrders(op.sortOrdersOldestFirst(parsedOrdersList)));
+        List<Order> sortedAndFilteredOrderList = new ArrayList<>(OrderProcessor.mergeSameClientOrders(OrderProcessor.sortOrdersOldestFirst(parsedOrdersList)));
 
         OrderPriceCalculator calc = new OrderPriceCalculator();
         OrderDiscounterPolicyManager discMan = new OrderDiscounterPolicyManager();
 
-        double price = 2.0;
-        double discount = 50;
-        double discountStepdown = 5;
-
-        List<Order> totalCostOrdersList = new ArrayList<>();
+         List<Order> totalCostOrdersList = new ArrayList<>();
 
         for (Order order : sortedAndFilteredOrderList) {
             totalCostOrdersList.add(calc.calculateOrderTotalCost(order, price));
@@ -41,10 +50,11 @@ public class OrderProcessor {
             System.out.println(order);
         }
 
+        return discountedTotalCostOrderList;
 
     }
 
-    public List<Order> sortOrdersOldestFirst(List<Order> orders) throws IOException {
+    private static List<Order> sortOrdersOldestFirst(List<Order> orders) throws IOException {
         
         List<Order> sortedOrders = orders.stream()
         .sorted(Comparator.comparing(Order::getOrderDateTime))
@@ -54,7 +64,7 @@ public class OrderProcessor {
         
     }
 
-    public List<Order> mergeSameClientOrders(List<Order> orders) {
+    private static List<Order> mergeSameClientOrders(List<Order> orders) {
         Map<String, Order> mergredMap = new LinkedHashMap<>(); // to keep an order
 
         for (Order currentOrder : orders) {

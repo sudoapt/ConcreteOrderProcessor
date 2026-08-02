@@ -12,7 +12,7 @@ public class OrderDiscounterPolicyManager {
 
 
     public List<Order> applyStepdownedDiscount(List<Order> orders, double productPriceDiscount, double discountStepdown) {
-        
+
         List<Order> discountedOrders = new ArrayList<>();
 
         double currentDiscount = productPriceDiscount / 100; // init discount
@@ -25,7 +25,7 @@ public class OrderDiscounterPolicyManager {
             //stepdown
             currentDiscount = Math.max(0, currentDiscount - discountStepdown / 100);
             
-            double newTotalCost = order.getTotalCost() * 1 - currentDiscount;
+            // double newTotalCost = order.getTotalCost() * 1 - currentDiscount;
             discountedOrders.add(new Order(order.getOrderDateTime(), order.getCustomerName(), order.getProductAmount(), totalCost));
 
             
