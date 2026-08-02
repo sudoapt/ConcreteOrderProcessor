@@ -24,7 +24,7 @@ public class Order {
 
     @Override
     public String toString() {
-        return orderDateTime + " " + customerName + " " + productAmount + " " + totalCost + "\n";
+        return orderDateTime + " " + customerName + " " + productAmount + " " + totalCost;
     }
 
     public static Order makeOrder(LocalDateTime orderDateTime, String customerName, double productAmount, double totalCost) {

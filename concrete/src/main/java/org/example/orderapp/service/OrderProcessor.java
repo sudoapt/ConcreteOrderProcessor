@@ -19,7 +19,27 @@ public class OrderProcessor {
         String datapath = "concrete/data/inbound_files/discount_day_without_ext";
         NoExtOrderAdapter adapter = new NoExtOrderAdapter();
         List<Order> parsedOrdersList = adapter.read(datapath);
-        System.out.println(op.mergeSameClientOrders(op.sortOrdersOldestFirst(parsedOrdersList)));
+
+        List<Order> sortedAndFilteredOrderList = new ArrayList<>(op.mergeSameClientOrders(op.sortOrdersOldestFirst(parsedOrdersList)));
+
+        OrderPriceCalculator calc = new OrderPriceCalculator();
+        OrderDiscounterPolicyManager discMan = new OrderDiscounterPolicyManager();
+
+        double price = 2.0;
+        double discount = 50;
+        double discountStepdown = 5;
+
+        List<Order> totalCostOrdersList = new ArrayList<>();
+
+        for (Order order : sortedAndFilteredOrderList) {
+            totalCostOrdersList.add(calc.calculateOrderTotalCost(order, price));
+        }
+        
+        List<Order> discountedTotalCostOrderList = new ArrayList<>(discMan.applyStepdownedDiscount(totalCostOrdersList, discount, discountStepdown));
+
+        for (Order order : discountedTotalCostOrderList) {
+            System.out.println(order);
+        }
 
 
     }
@@ -30,7 +50,6 @@ public class OrderProcessor {
         .sorted(Comparator.comparing(Order::getOrderDateTime))
         .collect(Collectors.toCollection(ArrayList::new));
         
-        System.out.println("OrderProcessor: \n" + sortedOrders);
         return sortedOrders;
         
     }
