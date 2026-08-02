@@ -6,7 +6,7 @@ public class Order {
 
     private final LocalDateTime orderDateTime;
     private final String customerName;
-    private final double productAmount;
+    private double productAmount;
     private double totalCost;
 
 
@@ -41,6 +41,10 @@ public class Order {
 
     public double getProductAmount() {
         return productAmount;
+    }
+
+    public void setProductAmount(double productAmount) {
+        this.productAmount = productAmount;
     }
 
     public double getTotalCost() {

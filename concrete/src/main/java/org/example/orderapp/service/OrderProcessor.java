@@ -3,7 +3,9 @@ package org.example.orderapp.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.example.orderapp.adapter.impl.NoExtOrderAdapter;
@@ -17,7 +19,7 @@ public class OrderProcessor {
         String datapath = "concrete/data/inbound_files/discount_day_without_ext";
         NoExtOrderAdapter adapter = new NoExtOrderAdapter();
         List<Order> parsedOrdersList = adapter.read(datapath);
-        op.sortOrdersOldestFirst(parsedOrdersList);
+        System.out.println(op.mergeSameClientOrders(op.sortOrdersOldestFirst(parsedOrdersList)));
 
 
     }
@@ -32,5 +34,25 @@ public class OrderProcessor {
         return sortedOrders;
         
     }
+
+    public List<Order> mergeSameClientOrders(List<Order> orders) {
+        Map<String, Order> mergredMap = new LinkedHashMap<>(); // to keep an order
+
+        for (Order currentOrder : orders) {
+            String customerName = currentOrder.getCustomerName();
+
+            if (mergredMap.containsKey(customerName)) {
+                Order existingOrder = mergredMap.get(customerName); // how does it work?
+                existingOrder.setProductAmount(existingOrder.getProductAmount() + currentOrder.getProductAmount());
+            } else {
+                mergredMap.put(customerName, currentOrder);
+            }
+        }
+
+        List<Order> uniqueOrdersOnly = new ArrayList<>(mergredMap.values());
+        
+        return uniqueOrdersOnly;
+    }
+
     
 }
