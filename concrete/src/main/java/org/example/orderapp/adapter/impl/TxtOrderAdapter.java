@@ -12,8 +12,7 @@ import org.example.orderapp.utils.FileReader;
 public class TxtOrderAdapter implements OrderSource {
     private final OrderParserImpl parser = new OrderParserImpl();
     private final FileReader fileReader = new FileReader();
-    // private final String datapath = "concrete/data/inbound_files/discount_day.txt";
-
+    
 
     @Override
     public List<Order> read(String datapath) throws IOException {
