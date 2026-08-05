@@ -1,32 +1,28 @@
 package org.example.orderapp;
 
-import java.io.IOException;
-import java.util.List;
-
-import org.example.orderapp.model.Order;
-import org.example.orderapp.service.OrderProcessor;
-import org.example.orderapp.utils.FileWriter;
+import org.example.orderapp.adapter.impl.OrderAdapter;
+import org.example.orderapp.service.DataConfig;
+import org.example.orderapp.service.OrderManager;
+import org.example.orderapp.service.OrderPriceManager;
+import org.example.orderapp.service.PricingConfig;
+import org.example.orderapp.utils.FileManager;
 
 public class Main {
     public static void main(String[] args) {
-        try {
-            String datapath = "concrete/data/inbound_files/discount_day_without_ext";
-            String outboundPath = "concrete/data/outbound_files/processed_orders.txt";
-            double price = 2.0;
-            double discount = 50;
-            double discountStepdown = 5;
-            
-            OrderProcessor op = new OrderProcessor(price, discount, discountStepdown, datapath);
-            
-            List<Order> result = op.processOrder(price, discount, discountStepdown, datapath);
-            result.forEach(System.out::println);
+        FileManager fileManager = new FileManager();
+        OrderPriceManager priceManager = new OrderPriceManager();
+        OrderAdapter adapter = new OrderAdapter();
+        PricingConfig pricingConfig = new PricingConfig(2.0, 50.0, 5.0);
+        DataConfig dataConfig = new DataConfig("concrete/src/main/resources/inbound_files/discount_day_without_ext",
+                "concrete/src/main/resources/outbound_files/processed_orders.txt");
 
-            FileWriter fw = new FileWriter();
-            fw.writeOdredToFile(result, outboundPath);
-            
+        OrderManager orderManager = new OrderManager(
+                fileManager,
+                priceManager,
+                adapter,
+                pricingConfig,
+                dataConfig);
 
-        } catch (IOException ex) {
-            System.getLogger(Main.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
-        }
+        orderManager.manageOrder(fileManager, priceManager, adapter, dataConfig, pricingConfig);
     }
 }
