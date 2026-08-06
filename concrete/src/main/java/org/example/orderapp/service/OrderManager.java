@@ -1,10 +1,8 @@
 package org.example.orderapp.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -18,44 +16,31 @@ public class OrderManager {
     private final FileManager fileManager;
     private final OrderPriceManager priceManager;
     private final OrderAdapter adapter;
-    private final PricingConfig pricingConfig;
-    private final DataConfig dataConfig;
 
-    public OrderManager(FileManager fileManager, OrderPriceManager priceManager, OrderAdapter adapter,
-            PricingConfig pricingConfig, DataConfig dataConfig) {
+    public OrderManager(FileManager fileManager, OrderPriceManager priceManager, OrderAdapter adapter) {
         this.fileManager = fileManager;
         this.priceManager = priceManager;
         this.adapter = adapter;
-        this.pricingConfig = pricingConfig;
-        this.dataConfig = dataConfig;
+
     }
 
-    public List<Receipt> manageOrder(FileManager fileManager, OrderPriceManager priceManager,
-            OrderAdapter adapter, DataConfig dataConfig, PricingConfig pricingConfig) {
+    public List<Receipt> manageOrder(double productPrice, double productPriceDiscount, double discountStepdown,
+            String inboundFilePath, String outboundFilePath) {
 
-        List<Order> sortedOrders = adapter.read(fileManager.readFileLineByLine(dataConfig.inboundFilePath())).stream()
+        List<Order> sortedOrders = adapter.read(fileManager.readFileLineByLine(inboundFilePath)).stream()
                 .sorted(Comparator.comparing(Order::getOrderDateTime))
                 .collect(Collectors.toList());
 
         List<Order> noDuplicateClients = mergeSameClientOrders(sortedOrders);
 
-        List<Receipt> receipts = priceManager.checkoutOrder(noDuplicateClients, pricingConfig.productPrice(),
-                pricingConfig.productPriceDiscount(), pricingConfig.discountStepdown());
+        List<Receipt> receipts = priceManager.checkoutOrder(noDuplicateClients, productPrice,
+                productPriceDiscount, discountStepdown);
 
-        fileManager.writeOdredToFile(receipts, dataConfig.outboundFilePath());
+        fileManager.writeOdredToFile(receipts, outboundFilePath);
 
         return receipts;
 
     }
-
-    // private static List<Order> sortOrdersOldestFirst(List<Order> orders) throws
-    // IOException {
-
-    // List<Order> sortedOrders = orders.stream()
-    // .sorted(Comparator.comparing(Order::getOrderDateTime))
-    // .collect(Collectors.toList());
-
-    // return sortedOrders;
 
     private static List<Order> mergeSameClientOrders(List<Order> orders) {
         Map<String, Order> mergedMap = new HashMap<>();
