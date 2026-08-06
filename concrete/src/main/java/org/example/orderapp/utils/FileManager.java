@@ -6,19 +6,25 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.List;
+import org.example.orderapp.model.Receipt;
 
-import org.example.orderapp.model.Order;
+public class FileManager {
 
-
-public class FileWriter {
-
-    public void writeOdredToFile(List<Order> orders, String pathToFile) {
+    public List<String> readFileLineByLine(String inboundFilePath) {
         try {
-            for (Order order : orders) {
-                String customerName = order.getCustomerName();
-                double totalCost = order.getTotalCost();
+            return Files.readAllLines(Path.of(inboundFilePath));
+        } catch (IOException e) {
+            throw new RuntimeException("Failed to read file: " + inboundFilePath, e);
+        }
+    }
+
+    public void writeOdredToFile(List<Receipt> receipts, String outboundFilePath) {
+        try {
+            for (Receipt receipt : receipts) {
+                String customerName = receipt.getCustomerName();
+                double totalCost = receipt.getTotalCost();
                 String resultingString = String.format("%s %.2f%n", customerName, totalCost);
-                Path path = Paths.get(pathToFile);
+                Path path = Paths.get(outboundFilePath);
                 Files.writeString(path, resultingString, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             }
         } catch (ClassCastException e) {
@@ -27,7 +33,5 @@ public class FileWriter {
             System.err.println("Error writing to file: " + e.getMessage());
         }
     }
-
-
 
 }
