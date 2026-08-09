@@ -24,7 +24,7 @@ public class OrderManager {
 
     }
 
-    public List<Receipt> manageOrder(double productPrice, double productPriceDiscount, double discountStepdown,
+    public void manageOrder(double productPrice, double productPriceDiscount, double discountStepdown,
             String inboundFilePath, String outboundFilePath) {
 
         List<Order> sortedOrders = adapter.read(fileManager.readFileLineByLine(inboundFilePath)).stream()
@@ -37,8 +37,6 @@ public class OrderManager {
                 productPriceDiscount, discountStepdown);
 
         fileManager.writeOdredToFile(receipts, outboundFilePath);
-
-        return receipts;
 
     }
 
