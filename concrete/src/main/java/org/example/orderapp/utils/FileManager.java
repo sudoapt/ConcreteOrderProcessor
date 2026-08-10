@@ -1,20 +1,40 @@
 package org.example.orderapp.utils;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
 import java.util.List;
+
+import org.example.orderapp.model.Order;
 import org.example.orderapp.model.Receipt;
+import org.example.orderapp.parser.impl.OrderParserImpl;
 
 public class FileManager {
 
-    public List<String> readFileLineByLine(String inboundFilePath) {
-        try {
-            return Files.readAllLines(Path.of(inboundFilePath));
+    private static final OrderParserImpl parser = new OrderParserImpl();
+
+    public List<Order> readFileLineByLine(String inboundFilePath) {
+        Path path = Path.of(inboundFilePath);
+
+        List<Order> orders = new ArrayList<>();
+
+        try (BufferedReader reader = Files.newBufferedReader(path)) {
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+
+                orders.add(parser.parseLineToOrder(line));
+            }
+            System.out.println("ORDERS:\n" + orders + "\n===========");
+            return orders;
         } catch (IOException e) {
-            throw new RuntimeException("Failed to read file: " + inboundFilePath, e);
+            throw new UncheckedIOException(
+                    "Failed to read file: " + inboundFilePath, e);
         }
     }
 
