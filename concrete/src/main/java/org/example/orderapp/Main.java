@@ -11,12 +11,6 @@ public class Main {
 
         OrderManager orderManager = new OrderManager(fm, pm);
 
-        // OrderPriceManager priceManager = new OrderPriceManager();
-        // OrderAdapter adapter = new OrderAdapter();
-
-        // OrderManager orderManager = new OrderManager(fileManager, priceManager,
-        // adapter);
-
         orderManager.manageOrder(2.0, 50.0, 5.0,
                 "concrete/src/main/resources/inbound_files/discount_day.txt",
                 "concrete/src/main/resources/outbound_files/processed_orders.txt");

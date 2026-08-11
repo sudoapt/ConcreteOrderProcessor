@@ -1,32 +1,37 @@
-// package org.example.orderapp.parser.impl;
+package org.example.orderapp.parser.impl;
 
-// import java.util.ArrayList;
-// import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-// import org.example.orderapp.adapter.OrderSource;
-// import org.example.orderapp.model.Order;
+import org.example.orderapp.model.Order;
+import org.example.orderapp.parser.OrderProcessor;
 
-// public class OrderAdapter implements OrderSource {
-// private final OrderParserImpl parser = new OrderParserImpl();
-// // private final FileReader fileReader = new FileReader();
+public class OrderAdapter implements OrderProcessor {
 
-// @Override
-// public List<Order> read(String dataline) {
-// /**
-// * Reads the lines via FileManager.
-// *
-// * @return ArrayList<Order> adaptedOrders
-// */
-// List<Order> adaptedOrders = new ArrayList<>();
-// // String pattern = "(?<=\\d)T(?=\\d)|[^a-zA-Z0-9: -]+";
-// String pattern = "[^a-zA-Z0-9:T -]";
-// for (String line : datalines) {
-// line = line.replaceAll(pattern, "\\|");
-// adaptedOrders.add(parser.parseLineToOrder(line));
-// }
-// // System.out.println(adaptedOrders);
-// return adaptedOrders;
+    private final OrderParserImpl parser;
 
-// }
+    private static final Pattern DELIMITER_PATTERN = Pattern
+            .compile("^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}([^a-zA-Z0-9])");
 
-// }
+    public OrderAdapter(OrderParserImpl parser) {
+        this.parser = parser;
+    }
+
+    @Override
+    public Order parseLineToOrder(String dataline) {
+
+        String convertedDataline = dataline;
+        Matcher matcher = DELIMITER_PATTERN.matcher(dataline);
+
+        if (matcher.find()) {
+            String foundDelimeter = matcher.group(1);
+            if (!"|".equals(foundDelimeter)) {
+                convertedDataline = dataline.replaceAll(Pattern.quote(foundDelimeter), "|");
+            }
+        }
+
+        return parser.parseLineToOrder(convertedDataline);
+
+    }
+
+}

@@ -12,11 +12,15 @@ import java.util.List;
 
 import org.example.orderapp.model.Order;
 import org.example.orderapp.model.Receipt;
+import org.example.orderapp.parser.OrderProcessor;
+import org.example.orderapp.parser.impl.AdapterFactory;
 import org.example.orderapp.parser.impl.OrderParserImpl;
 
 public class FileManager {
 
     private static final OrderParserImpl parser = new OrderParserImpl();
+
+    private static final OrderProcessor processor = AdapterFactory.createOrderProcessor();
 
     public List<Order> readFileLineByLine(String inboundFilePath) {
         Path path = Path.of(inboundFilePath);
@@ -28,7 +32,8 @@ public class FileManager {
 
             while ((line = reader.readLine()) != null) {
 
-                orders.add(parser.parseLineToOrder(line));
+                // orders.add(parser.parseLineToOrder(line));
+                orders.add(processor.parseLineToOrder(line));
             }
             System.out.println("ORDERS:\n" + orders + "\n===========");
             return orders;
