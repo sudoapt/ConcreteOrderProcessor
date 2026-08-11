@@ -11,13 +11,6 @@ import org.example.orderapp.model.Order;
 import org.example.orderapp.model.Receipt;
 
 public class OrderPriceManager {
-    // private final FileManager fileManager;
-    // private final OrderAdapter adapter;
-
-    // public OrderPriceManager(FileManager fileManager, OrderAdapter adapter) {
-    // // this.fileManager = fileManager;
-    // // this.adapter = adapter;
-    // }
 
     public List<Receipt> checkoutOrder(
             List<Order> orders,

@@ -8,7 +8,6 @@ public class Order {
     private final String customerName;
     private double productAmount;
 
-
     public Order(LocalDateTime orderDateTime, String customerName, double productAmount) {
         this.orderDateTime = orderDateTime;
         this.customerName = customerName;
@@ -39,5 +38,5 @@ public class Order {
     public void setProductAmount(double productAmount) {
         this.productAmount = productAmount;
     }
-    
+
 }

@@ -29,7 +29,6 @@ public class FileManager {
 
             while ((line = reader.readLine()) != null) {
 
-                // orders.add(parser.parseLineToOrder(line));
                 orders.add(processor.parseLineToOrder(line));
             }
             System.out.println("ORDERS:\n" + orders + "\n===========");
