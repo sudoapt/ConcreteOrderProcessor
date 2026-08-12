@@ -9,9 +9,9 @@ import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.example.orderapp.model.Order;
-import org.example.orderapp.model.Receipt;
 import org.example.orderapp.parser.OrderProcessor;
 import org.example.orderapp.parser.impl.OrderProcessorFactory;
 
@@ -42,11 +42,11 @@ public class FileManager {
         }
     }
 
-    public void writeReceiptsToFile(List<Receipt> receipts, String outboundFilePath) {
+    public void writeReceiptsToFile(Map<String, Double> receipts, String outboundFilePath) {
         try {
-            for (Receipt receipt : receipts) {
-                String customerName = receipt.getCustomerName();
-                double totalCost = receipt.getTotalCost();
+            for (Map.Entry<String, Double> entry : receipts.entrySet()) {
+                String customerName = entry.getKey();
+                double totalCost = entry.getValue();
                 String resultingString = String.format("%s %.2f%n", customerName, totalCost);
                 Path path = Paths.get(outboundFilePath);
                 Files.writeString(path, resultingString, StandardOpenOption.CREATE, StandardOpenOption.APPEND);

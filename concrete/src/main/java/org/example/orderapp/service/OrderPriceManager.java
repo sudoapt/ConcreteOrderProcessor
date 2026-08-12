@@ -12,18 +12,19 @@ import org.example.orderapp.model.Receipt;
 
 public class OrderPriceManager {
 
-    public List<Receipt> checkoutOrder(
+    public Map<String, Double> checkoutOrder(
             List<Order> orders,
             double productPrice,
             double productPriceDiscount,
             double discountStepdown) {
 
-        List<Receipt> receipts = new ArrayList<>();
         double currentDiscount = productPriceDiscount / 100.0;
 
-        List<Order> sortedAndUniqueOrders = sortAndDeduplicateOrders(orders);
+        List<Order> sortedOrders = sortOrders(orders);
 
-        for (Order order : sortedAndUniqueOrders) {
+        List<Receipt> receipts = new ArrayList<>();
+
+        for (Order order : sortedOrders) {
             double orderCost = order.getProductAmount() * productPrice;
             double discountedCost = Math.round(
                     orderCost * (1 - currentDiscount));
@@ -35,32 +36,38 @@ public class OrderPriceManager {
             currentDiscount = Math.max(
                     0,
                     currentDiscount - discountStepdown / 100.0);
+
         }
         receipts.forEach(System.out::println);
-        return receipts;
+
+        return mergeSameClientOrders(receipts);
+
     }
 
-    private List<Order> sortAndDeduplicateOrders(List<Order> orders) {
+    private List<Order> sortOrders(List<Order> orders) {
 
         List<Order> sortedOrders = orders.stream()
                 .sorted(Comparator.comparing(Order::getOrderDateTime))
                 .collect(Collectors.toList());
 
-        return mergeSameClientOrders(sortedOrders);
+        return sortedOrders;
     }
 
-    private static List<Order> mergeSameClientOrders(List<Order> orders) {
-        Map<String, Order> mergedMap = new HashMap<>();
-
-        for (Order order : orders) {
-            mergedMap.merge(order.getCustomerName(), order, (existing, inbound) -> {
-                existing.setProductAmount(existing.getProductAmount() + inbound.getProductAmount());
-
-                return existing;
-            });
-
+    private static Map<String, Double> mergeSameClientOrders(List<Receipt> receipts) {
+        Map<String, Double> mergedMap = new HashMap<>();
+        for (Receipt receipt : receipts) {
+            mergedMap.merge(receipt.getCustomerName(), receipt.getTotalCost(), Double::sum);
         }
 
-        return new ArrayList<>(mergedMap.values());
+        // for (Receipt receipt : receipts) {
+        // mergedMap.merge(order.getCustomerName(), order, (existing, inbound) -> {
+        // existing.setProductAmount(existing.getProductAmount() +
+        // inbound.getProductAmount());
+
+        // return existing;
+        // });
+
+        return mergedMap;
     }
+
 }

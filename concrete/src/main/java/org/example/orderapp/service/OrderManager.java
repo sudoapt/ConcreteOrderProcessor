@@ -1,9 +1,9 @@
 package org.example.orderapp.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.example.orderapp.model.Order;
-import org.example.orderapp.model.Receipt;
 import org.example.orderapp.utils.FileManager;
 
 public class OrderManager {
@@ -21,7 +21,7 @@ public class OrderManager {
 
         List<Order> orders = fileManager.readFileLineByLine(inboundFilePath);
 
-        List<Receipt> receipts = priceManager.checkoutOrder(orders, productPrice,
+        Map<String, Double> receipts = priceManager.checkoutOrder(orders, productPrice,
                 productPriceDiscount, discountStepdown);
 
         fileManager.writeReceiptsToFile(receipts, outboundFilePath);

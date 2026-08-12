@@ -2,7 +2,7 @@ package org.example.orderapp.model;
 
 public class Receipt {
     private final String customerName;
-    private double totalCost;
+    private final double totalCost;
 
     public Receipt(String customerName, double totalCost) {
         this.customerName = customerName;
