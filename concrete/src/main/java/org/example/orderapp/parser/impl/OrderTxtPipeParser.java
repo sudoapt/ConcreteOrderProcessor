@@ -4,9 +4,9 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
 import org.example.orderapp.model.Order;
-import org.example.orderapp.parser.OrderParser;
+import org.example.orderapp.parser.OrderProcessor;
 
-public class OrderParserImpl implements OrderParser {
+public class OrderTxtPipeParser implements OrderProcessor {
 
     @Override
     public Order parseLineToOrder(String dataline) {

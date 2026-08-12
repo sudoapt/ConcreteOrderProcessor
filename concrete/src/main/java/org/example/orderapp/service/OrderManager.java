@@ -24,7 +24,7 @@ public class OrderManager {
         List<Receipt> receipts = priceManager.checkoutOrder(orders, productPrice,
                 productPriceDiscount, discountStepdown);
 
-        fileManager.writeOdredToFile(receipts, outboundFilePath);
+        fileManager.writeReceiptsToFile(receipts, outboundFilePath);
 
     }
 

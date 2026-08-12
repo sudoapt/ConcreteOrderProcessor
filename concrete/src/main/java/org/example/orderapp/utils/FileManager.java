@@ -13,14 +13,17 @@ import java.util.List;
 import org.example.orderapp.model.Order;
 import org.example.orderapp.model.Receipt;
 import org.example.orderapp.parser.OrderProcessor;
-import org.example.orderapp.parser.impl.AdapterFactory;
+import org.example.orderapp.parser.impl.OrderProcessorFactory;
 
 public class FileManager {
 
-    private static final OrderProcessor processor = AdapterFactory.createOrderProcessor();
+    // private static final OrderProcessor processor =
+    // AdapterFactory.createOrderProcessor();
 
     public List<Order> readFileLineByLine(String inboundFilePath) {
         Path path = Path.of(inboundFilePath);
+        InboundFileFormatEnum fileFormat = FileFormatDetector.detectByExtension(path);
+        OrderProcessor processor = OrderProcessorFactory.createOrderProcessor(fileFormat);
 
         List<Order> orders = new ArrayList<>();
 
@@ -39,7 +42,7 @@ public class FileManager {
         }
     }
 
-    public void writeOdredToFile(List<Receipt> receipts, String outboundFilePath) {
+    public void writeReceiptsToFile(List<Receipt> receipts, String outboundFilePath) {
         try {
             for (Receipt receipt : receipts) {
                 String customerName = receipt.getCustomerName();

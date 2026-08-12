@@ -19,10 +19,6 @@ public class Order {
         return orderDateTime + " " + customerName + " " + productAmount;
     }
 
-    public static Order makeOrder(LocalDateTime orderDateTime, String customerName, double productAmount) {
-        return new Order(orderDateTime, customerName, productAmount);
-    }
-
     public LocalDateTime getOrderDateTime() {
         return orderDateTime;
     }
