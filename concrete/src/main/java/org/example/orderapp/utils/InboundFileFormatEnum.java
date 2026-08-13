@@ -8,8 +8,8 @@ public enum InboundFileFormatEnum {
     TXT {
         @Override
         public OrderProcessor create(OrderTxtPipeParser parser) {
-            return new OrderNoExtAdapter(parser);
-            // return parser;
+            // return new OrderNoExtAdapter(parser);
+            return parser;
         }
     },
 

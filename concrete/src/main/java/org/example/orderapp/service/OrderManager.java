@@ -16,7 +16,7 @@ public class OrderManager {
 
     }
 
-    public void manageOrder(double productPrice, double productPriceDiscount, double discountStepdown,
+    public void manageOrders(double productPrice, double productPriceDiscount, double discountStepdown,
             String inboundFilePath, String outboundFilePath) {
 
         List<Order> orders = fileManager.readFileLineByLine(inboundFilePath);

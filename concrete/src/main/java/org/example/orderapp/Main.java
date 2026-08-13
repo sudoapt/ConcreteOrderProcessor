@@ -11,9 +11,9 @@ public class Main {
 
         OrderManager orderManager = new OrderManager(fm, pm);
 
-        orderManager.manageOrder(2.0, 50.0, 5.0,
+        orderManager.manageOrders(2.0, 50.0, 5.0,
                 "concrete/src/main/resources/inbound_files/discount_day.txt",
-                "concrete/src/main/resources/outbound_files/processed_orders.txt");
+                "concrete/src/main/resources/outbound_files/processed_orders_without_ext");
 
     }
 
