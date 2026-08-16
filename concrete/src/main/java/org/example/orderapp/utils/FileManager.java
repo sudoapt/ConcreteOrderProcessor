@@ -17,8 +17,6 @@ import org.example.orderapp.parser.impl.OrderProcessorFactory;
 
 public class FileManager {
 
-    // private static final OrderProcessor processor =
-    // AdapterFactory.createOrderProcessor();
 
     public List<Order> readFileLineByLine(String inboundFilePath) {
         Path path = Path.of(inboundFilePath);

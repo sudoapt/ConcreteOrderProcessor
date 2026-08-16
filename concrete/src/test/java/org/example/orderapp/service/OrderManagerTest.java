@@ -1,10 +1,8 @@
 package org.example.orderapp.service;
 
-import static org.mockito.Mockito.*;
-
-import java.util.List;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.example.orderapp.model.Order;
@@ -13,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -35,7 +37,7 @@ class OrderManagerTest {
         String inboundPath = "input.txt";
         String outboundPath = "output.txt";
 
-        List<Order> mockOrders = new ArrayList<Order>();
+        List<Order> mockOrders = new ArrayList<>();
         Order mockSingleOrder = mock(Order.class);
         mockOrders.add(mockSingleOrder);
 
