@@ -45,7 +45,7 @@ public class FileManager {
             for (Map.Entry<String, Double> entry : receipts.entrySet()) {
                 String customerName = entry.getKey();
                 double totalCost = entry.getValue();
-                String resultingString = String.format("%s %.2f%n", customerName, totalCost);
+                String resultingString = String.format("%s - %.2f%n", customerName, totalCost);
                 Path path = Paths.get(outboundFilePath);
                 Files.writeString(path, resultingString, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
             }
