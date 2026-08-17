@@ -78,7 +78,7 @@ public class FileManagerTest {
         fileManager.writeReceiptsToFile(receipts, filePath);
 
       
-        String expectedString = String.format("Firm1 20.50%nFirm2 10.05%n");
+        String expectedString = String.format("Firm1 - 20.50%nFirm2 - 10.05%n");
         String actualString = Files.readString(tempFile);
         assertEquals(expectedString, actualString);
     }
